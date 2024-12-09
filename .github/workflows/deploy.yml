@@ -1,0 +1,42 @@
+name: Deploy React App to Azure Static Web Apps
+
+on:
+  push:
+    branches:
+      - main # Trigger deployment on push to the main branch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest # Use Ubuntu for the runner
+
+    steps:
+      # Step 1: Checkout the repository
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Step 2: Set up Node.js (use the version that suits your app)
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "16" # Adjust the Node.js version according to your app's needs
+
+      # Step 3: Install dependencies
+      - name: Install dependencies
+        run: npm install
+
+      # Step 4: Build the React app
+      - name: Build React app
+        run: npm run build
+
+      # Step 5: Deploy to Azure Static Web Apps
+      - name: Deploy to Azure Static Web Apps
+        uses: azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }} # Your Azure Static Web Apps API token
+          app_location: "/" # Path to your React app (usually the root for React apps)
+          api_location: "/" # If you have an API, specify the path (if not, use "")
+          output_location: "/build" # Path to the built React app (output from npm run build)
+
+        env:
+          REACT_APP_API_BASE_URL: ${{ secrets.REACT_APP_API_BASE_URL }} # The API base URL
+          REACT_APP_API_KEY: ${{ secrets.REACT_APP_API_KEY }} # The API key for accessing your backend
