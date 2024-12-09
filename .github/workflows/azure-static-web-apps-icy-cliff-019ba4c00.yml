@@ -26,10 +26,12 @@ jobs:
           node-version: '20'  # Specify the Node.js version you're using
 
       - name: Install Dependencies
+        working-directory: ./client  # Make sure npm is run in the correct directory
         run: |
           npm install
 
       - name: Build App
+        working-directory: ./client  # Make sure the build command runs in the correct directory
         run: |
           npm run build
 
@@ -44,8 +46,8 @@ jobs:
           api_location: "" # API source code path - optional
           output_location: "build" # Built app content directory - optional
         env:
-          REACT_APP_API_BASE_URL: ${{ secrets.REACT_APP_API_BASE_URL }}  # Add your API Base URL
-          REACT_APP_API_KEY: ${{ secrets.REACT_APP_API_KEY }}  # Add your API Key
+          REACT_APP_API_BASE_URL: ${{ secrets.REACT_APP_API_BASE_URL }}
+          REACT_APP_API_KEY: ${{ secrets.REACT_APP_API_KEY }}
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
