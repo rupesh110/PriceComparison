@@ -1,0 +1,13 @@
+﻿@BackendWorker_HostAddress = http://localhost:7137
+
+GET {{BackendWorker_HostAddress}}/api/Test
+
+###
+
+GET {{BackendWorker_HostAddress}}/api/productSearch/?
+
+###
+
+GET {{BackendWorker_HostAddress}}/api/Products/?query=Sugar
+
+###
